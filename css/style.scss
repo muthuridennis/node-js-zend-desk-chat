@@ -1,0 +1,35 @@
+@import 'normalize';
+
+#chat-box .header,
+#chat-box .messages,
+#chat-box .footer{
+	width: 100%;
+}
+
+#chat-box{
+	position:absolute;
+	right:0.1rem;
+	bottom:0;
+	width: 25%;
+}
+
+#chat-box .header{
+	background-color: #ccc;
+	border: 1px solid transparent;
+	border-radius: 0.45rem 0.45rem 0px 0px;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-bottom: 0.3rem;
+	padding-top: 0.3rem;
+	width: 100%;
+	display: table;
+}
+
+#chat-box .header h3{
+	float: left;
+}
+
+#chat-box .header .window-controls{
+	float: right;
+	padding-top: 0.33rem; 
+}
