@@ -17,7 +17,7 @@ html[dir="ltr"]{
 
 /* 2.B */
 body{
-  font-size: 18px;
+  font-size: $base-font-size + px;
   line-height: 1.4rem;
   color: $color-dark;
 }
@@ -108,4 +108,9 @@ ul.no-style, ol.no-style, dl.no-style{
   li{
     margin: 0;
   }
+}
+
+img{
+  max-width: 100%;
+  height: auto;
 }
