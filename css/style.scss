@@ -37,12 +37,13 @@
 		h3{
 			float: left;
 			width: 84.67%;
+			color: #ECFFFF;
 		}
 
 		.window-controls{
 			float: left;
 			width: $avatar-width;
-			padding-top: 0.33rem;
+			padding-top: 0.2rem;
 			
 			span{
 				display: inline-block;
@@ -66,35 +67,23 @@
 		}
 	}
 	
-	.message{
-		display: block;
-		float: left;
-		width: auto;
-		max-width: 84.67%;
-		padding: $padding;
-		word-wrap: break-word;
-		background-color: rgb(221, 221, 221);
-		border-radius: 5px;		
-	}
-
-	.avatar{
-		width: $avatar-width;
-		float: left;
-		padding-right: $padding;
-	}
 
 	.messages{
 		background-color: $color-grey;
 		padding-top: $padding;
 		padding-bottom: $padding;
 		border-left: 1px solid $color-light-grey; 
-		border-right: 1px solid $color-light-grey; 
+		border-right: 1px solid $color-light-grey;
+		overflow-y: auto;
+		height: 13.33rem; 
+
 
 		li{
 			padding-left: $padding;
 			padding-right: $padding;
 			display: inline-block;
 			width: 100%;
+			margin-bottom: 0.333rem;
 		}
 
 		.recepient{
@@ -108,12 +97,30 @@
 				float: right;
 			}			
 		}
+
+		.message{
+			display: block;
+			float: left;
+			width: auto;
+			max-width: 84.67%;
+			padding: $padding;
+			word-wrap: break-word;
+			background-color: rgb(221, 221, 221);
+			border-radius: 0.333rem;
+			box-shadow: 0 10px 3px -8px #C0C0C0;		
+		}
+
+		.avatar{
+			width: $avatar-width;
+			float: left;
+			padding-right: $padding;
+		}
 	}
 
 	.footer{
 		textarea{
 			width: 100%;
-			height: 4rem;
+			height: 3rem;
 			resize: none;
 			padding: $padding;
 		}
