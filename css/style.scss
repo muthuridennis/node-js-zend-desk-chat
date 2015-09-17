@@ -46,11 +46,21 @@
 			
 			span{
 				display: inline-block;
+				border: 1px solid #272929;
+				padding-right: 0.28rem;
+				padding-left: 0.25rem;
+				font-size: 1rem;
+				line-height: 1rem;
 
 				&:last-of-type{
-					margin-left: 0.4rem;
-					position: relative;
-					bottom: 0.0667rem;
+					padding-left: 0.28rem;
+					line-height: 1rem;
+				}
+
+				&:hover{
+					cursor: pointer;
+					background-color: #272929;
+					color: #87AFB7;
 				}
 			}
 		}
