@@ -23,6 +23,10 @@
 		width: 100%;
 	}
 
+	.body{
+		display: none;
+	}
+
 	.header{
 		background-color: $color-blue;
 		border: 1px solid transparent;
@@ -34,7 +38,7 @@
 		width: 100%;
 		display: table;
 
-		h3{
+		.title{
 			float: left;
 			width: 84.67%;
 			color: #ECFFFF;
@@ -125,5 +129,4 @@
 			padding: $padding;
 		}
 	}
-
 }
