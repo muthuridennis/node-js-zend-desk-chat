@@ -21,3 +21,9 @@
                     <span class="message offset-right">I don't get?</span>
                 </li> -->
 ```
+
+Tasks
+- Figure out how forms work in React.
+- Submit from input in React.
+- Display input in the chatbox.
+- Echo the input the user entered. 

@@ -24,34 +24,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 // React code
 
-var Recipient = (function (_React$Component) {
-	_inherits(Recipient, _React$Component);
+var ChatMessage = (function (_React$Component) {
+	_inherits(ChatMessage, _React$Component);
 
-	function Recipient() {
-		_classCallCheck(this, Recipient);
+	function ChatMessage() {
+		_classCallCheck(this, ChatMessage);
 
-		_get(Object.getPrototypeOf(Recipient.prototype), 'constructor', this).apply(this, arguments);
+		_get(Object.getPrototypeOf(ChatMessage.prototype), 'constructor', this).call(this);
+		this.state = {
+			message: {
+				type: 'recepient',
+				text: 'Hi there. My name is Jane and I\'m here to help with any questions you might have regarding our service.'
+			}
+		};
 	}
 
-	_createClass(Recipient, [{
+	_createClass(ChatMessage, [{
 		key: 'render',
 		value: function render() {
-			return React.createElement(
-				'li',
-				{ className: 'recepient' },
-				React.createElement('img', { src: '/images/avatars/female-avatar-1.png', className: 'avatar', alt: 'recepient avatar' }),
-				React.createElement(
-					'span',
-					{ className: 'message' },
-					this.props.greetingText
-				)
-			);
+			if (this.state.message.type == 'recepient') {
+				return React.createElement(
+					'li',
+					{ className: 'recepient' },
+					React.createElement('img', { src: '/images/avatars/female-avatar-1.png', className: 'avatar', alt: 'recepient avatar' }),
+					React.createElement(
+						'span',
+						{ className: 'message' },
+						this.state.message.text
+					)
+				);
+			} else {
+				return React.createElement(
+					'li',
+					{ className: 'sender' },
+					React.createElement(
+						'span',
+						{ className: 'message offset-right' },
+						'Hi Paul. I don\'t understand your FAQ'
+					)
+				);
+			}
 		}
 	}]);
 
-	return Recipient;
+	return ChatMessage;
 })(React.Component);
 
-var message = 'Hi there. My name is Jane and I\'m here to help with any questions you might have regarding our service.';
-
-React.render(React.createElement(Recipient, { greetingText: message }), document.getElementById('messages-container'));
+React.render(React.createElement(ChatMessage, null), document.getElementById('messages-container'));
