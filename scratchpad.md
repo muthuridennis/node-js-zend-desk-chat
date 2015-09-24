@@ -27,3 +27,16 @@ Tasks
 - Submit from input in React.
 - Display input in the chatbox.
 - Echo the input the user entered. 
+
+Page loads --> Intial state of the Messages container box is set.
+
+TextArea receives message from sender===>
+                                        \
+                                         \
+                                          --> Message is passed to the Recepient component 
+                                          --> Message passed to the Sender component
+
+Chatbox components:
+- Message container
+    - Chat Message
+- Form with a textarea
