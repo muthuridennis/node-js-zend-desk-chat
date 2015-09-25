@@ -58,8 +58,10 @@
 				line-height: 1rem;
 
 				&:last-of-type{
-					padding-left: 0.28rem;
+					float: right;
 					line-height: 1rem;
+					padding-left: 0.328rem;
+					margin-top: 0.135rem;
 				}
 
 				&:hover{
