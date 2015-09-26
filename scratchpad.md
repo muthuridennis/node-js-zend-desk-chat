@@ -42,3 +42,7 @@ Chatbox components:
 - Form with a textarea
 
 Update form > Update state in MessageList
+
+Message Stream Sources > Business and Customer
+Initial Source> Business
+

@@ -118,24 +118,16 @@ var ChatMessageList = (function (_React$Component3) {
 	function ChatMessageList() {
 		_classCallCheck(this, ChatMessageList);
 
-		_get(Object.getPrototypeOf(ChatMessageList.prototype), 'constructor', this).call(this);
-		this.state = {
-			chatMessages: [{
-				text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
-				type: 'business'
-			}]
-		};
+		_get(Object.getPrototypeOf(ChatMessageList.prototype), 'constructor', this).apply(this, arguments);
 	}
 
 	_createClass(ChatMessageList, [{
 		key: 'render',
 		value: function render() {
-			console.log('ChatMessageList >>> I was called');
 			return React.createElement(
 				'ul',
 				{ className: 'no-style messages', id: 'messages-container' },
-				this.state.chatMessages.map(function (message, id) {
-					console.log(message);
+				this.props.messages.map(function (message, id) {
 					return React.createElement(ChatMessage, { key: id, messageText: message.text, messageType: message.type });
 				})
 			);
@@ -161,12 +153,11 @@ var ChatForm = (function (_React$Component4) {
 		value: function updateChatMessageList(event) {
 			// 13 is the Enter keycode
 			if (event.keyCode === 13) {
-				var message = [{
+				var message = {
 					text: event.target.value,
 					type: 'customer'
-				}];
-				console.log('ChatMessageList');
-
+				};
+				this.props.newMessage(message);
 				event.target.value = "";
 				event.preventDefault();
 			};
@@ -180,7 +171,7 @@ var ChatForm = (function (_React$Component4) {
 				React.createElement(
 					'form',
 					{ action: '', method: 'post', id: 'chat-message-form' },
-					React.createElement('textarea', { placeholder: 'Hi. I would like to receive help on ...', onKeyDown: this.updateChatMessageList, name: 'message' })
+					React.createElement('textarea', { placeholder: 'Hi. I would like to receive help on ...', onKeyDown: this.updateChatMessageList.bind(this), name: 'message' })
 				)
 			);
 		}
@@ -195,10 +186,25 @@ var ChatBox = (function (_React$Component5) {
 	function ChatBox() {
 		_classCallCheck(this, ChatBox);
 
-		_get(Object.getPrototypeOf(ChatBox.prototype), 'constructor', this).apply(this, arguments);
+		_get(Object.getPrototypeOf(ChatBox.prototype), 'constructor', this).call(this);
+		this.state = {
+			chatMessages: [{
+				text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
+				type: 'business'
+			}]
+		};
 	}
 
 	_createClass(ChatBox, [{
+		key: 'addMessageToList',
+		value: function addMessageToList(message) {
+			// update message que
+			this.state.chatMessages.push(message);
+			this.setState({
+				chatMessages: this.state.chatMessages
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return React.createElement(
@@ -208,8 +214,8 @@ var ChatBox = (function (_React$Component5) {
 				React.createElement(
 					'section',
 					{ className: 'body' },
-					React.createElement(ChatMessageList, null),
-					React.createElement(ChatForm, null)
+					React.createElement(ChatMessageList, { messages: this.state.chatMessages }),
+					React.createElement(ChatForm, { newMessage: this.addMessageToList.bind(this) })
 				)
 			);
 		}

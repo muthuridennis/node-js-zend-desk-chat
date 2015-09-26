@@ -54,22 +54,10 @@ class ChatMessage extends React.Component {
 }
 
 class ChatMessageList extends React.Component {
-	constructor(){
-		super();
-		this.state = {
-			chatMessages: [{
-				text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
-				type: 'business'				
-			}]
-		}
-	}
-
 	render(){
-		console.log('ChatMessageList >>> I was called');
 		return(
 		  	<ul className="no-style messages" id="messages-container">
-					{this.state.chatMessages.map(function(message, id){
-						console.log(message);
+					{this.props.messages.map(function(message, id){
 						return <ChatMessage key={id} messageText={message.text} messageType={message.type}/>;
 					})}
 				</ul>
@@ -82,12 +70,11 @@ class ChatForm extends React.Component {
 	updateChatMessageList(event){
 		// 13 is the Enter keycode
 		if (event.keyCode === 13) {
-			let message = [{
+			let message = {
 				text: event.target.value,
 				type: 'customer' 
-			}];
-			console.log('ChatMessageList');
-
+			};
+			this.props.newMessage(message)
 			event.target.value = "";
 			event.preventDefault();
 		};
@@ -97,7 +84,7 @@ class ChatForm extends React.Component {
 		return(
 			<div className="footer">
 				<form action="" method="post" id="chat-message-form">
-					<textarea placeholder="Hi. I would like to receive help on ..." onKeyDown={this.updateChatMessageList} name="message"></textarea>
+					<textarea placeholder="Hi. I would like to receive help on ..." onKeyDown={this.updateChatMessageList.bind(this)} name="message"></textarea>
 				</form>
 			</div>
 		);
@@ -105,13 +92,31 @@ class ChatForm extends React.Component {
 }
 
 class ChatBox extends React.Component {
+	constructor(){
+		super();
+		this.state = {
+			chatMessages: [{
+				text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
+				type: 'business'				
+			}]
+		}
+	}
+
+	addMessageToList(message){
+		// update message que
+		this.state.chatMessages.push(message)
+		this.setState({
+			chatMessages: this.state.chatMessages 
+		});
+	}
+
 	render(){
 		return(
 			<aside id="chat-box">
 				<Header/>
 				<section className="body">
-					<ChatMessageList/>
-					<ChatForm/>
+					<ChatMessageList messages={this.state.chatMessages}/>
+					<ChatForm newMessage={this.addMessageToList.bind(this)}/>
 				</section>
 			</aside>
 		);
