@@ -95,12 +95,15 @@
 		.recepient{
 			.message{
 				padding-left: $padding;		
+				background-color: rgb(221, 221, 221);
 			}			
 		}
 
 		.sender{
 			.message{
 				float: right;
+				background-color: #BEDEE4;
+				color: #2F2F2F;
 			}			
 		}
 
@@ -111,7 +114,6 @@
 			max-width: 84.67%;
 			padding: $padding;
 			word-wrap: break-word;
-			background-color: rgb(221, 221, 221);
 			border-radius: 0.333rem;
 			box-shadow: 0 10px 3px -8px #C0C0C0;		
 		}
