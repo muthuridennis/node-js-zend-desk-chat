@@ -1,5 +1,21 @@
 // React code
 class Header extends React.Component {
+	componentDidMount() {
+		(function($) {
+			let minimizeBtn = $('.window-controls .minimize');
+			let maximizeBtn = $('.window-controls .expand');
+			let chatBoxBody =  $('#chat-box .body');
+
+			minimizeBtn.click(()=>{
+				chatBoxBody.slideUp();
+			});
+
+			maximizeBtn.click(()=>{
+				chatBoxBody.slideDown();
+			})
+		})(jQuery);
+	}
+
 	render(){
 		let title = 'Chicken House Help';
 		return(
@@ -14,34 +30,48 @@ class Header extends React.Component {
 	}
 }
 
-class ChatMessageList extends React.Component {
-	constructor(){
-		super();
-		this.state = {
-			chatMessages: [],
-			chatMessage: {
-				recepient: (message) =>{
+class ChatMessage extends React.Component {
+	render(){
+		let chatMessage = {
+			business: (message) =>{
+				return(
 					<li className="recepient">
 						<img src="/images/avatars/female-avatar-1.png" className="avatar" alt="recepient avatar"/>
 						<span className="message">{message}</span>
 					</li>
-				},
-				sender: (message) =>{
+				)
+			},
+			customer: (message) =>{
+				return(
 					<li className="sender">
-	                    <span className="message offset-right">{message}</span>
-	                </li>
-				}
+	            <span className="message offset-right">{message}</span>
+	        </li>
+				)
 			}
+		}
+		return chatMessage[this.props.messageType](this.props.messageText);
+	}
+}
+
+class ChatMessageList extends React.Component {
+	constructor(){
+		super();
+		this.state = {
+			chatMessages: [{
+				text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
+				type: 'business'				
+			}]
 		}
 	}
 
 	render(){
-		let chatMessageQue = this.state.chatMessages.push(this.state.chatMessage[this.props.messageType](this.props.messageText));
-		console.log(typeof(this.state.chatMessages));
 		return(
 		  	<ul className="no-style messages" id="messages-container">
-				{chatMessageQue}
-			</ul>
+					{this.state.chatMessages.map(function(message, id){
+						console.log(message);
+						return <ChatMessage key={id} messageText={message.text} messageType={message.type}/>;
+					})}
+				</ul>
 		);
 	}
 }
@@ -51,8 +81,14 @@ class ChatForm extends React.Component {
 	updateChatMessageList(event){
 		// 13 is the Enter keycode
 		if (event.keyCode === 13) {
-			<ChatMessageList messageText={event.target.value} messageType={'sender'} />
+			console.log('Enter was pressed', event.target.value);
+			let message = [{
+				text: event.target.value,
+				type: 'customer' 
+			}];
+			<ChatMessageList message={message}/>
 			event.target.value = "";
+			event.preventDefault();
 		};
 	}
 
@@ -60,7 +96,7 @@ class ChatForm extends React.Component {
 		return(
 			<div className="footer">
 				<form action="" method="post" id="chat-message-form">
-					<textarea placeholder="Hi. I would like to receive help on ..." onKeyDown={this.updateChatMessageList} name="message"></textarea>
+					<textarea placeholder="Hi. I would like to receive help on ..." onKeyDown={this.updateChatMessageList.bind(this)} name="message"></textarea>
 				</form>
 			</div>
 		);
@@ -69,11 +105,9 @@ class ChatForm extends React.Component {
 
 class ChatBoxBody extends React.Component {
 	render(){
-		let message = 'Hi there. My name is Jane and I\'m here to help with any questions you might have regarding our service.',
-			type = 'recepient';
 		return(
 			<section className="body">
-				<ChatMessageList messageText={message} messageType={type} />
+				<ChatMessageList/>
 				<ChatForm/>
 			</section>
 		);
@@ -93,17 +127,23 @@ class ChatBox extends React.Component {
 
 React.render(<ChatBox/>, document.body);
 
-// wait for elements to load before attaching event handlers
-(function($) {
-	let minimizeBtn = $('.window-controls .minimize');
-	let maximizeBtn = $('.window-controls .expand');
-	let chatBoxBody =  $('#chat-box .body');
+// class Counter extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {count: props.initialCount};
+//   }
+//   tick() {
+//     this.setState({count: this.state.count + 1});
+//   }
+//   render() {
+//     return (
+//       <button onClick={this.tick.bind(this)}>
+//         Clicks: {this.state.count}
+//       </button>
+//     );
+//   }
+// }
+// Counter.propTypes = { initialCount: React.PropTypes.number };
+// Counter.defaultProps = { initialCount: 4 };
 
-	minimizeBtn.click(()=>{
-		chatBoxBody.slideUp();
-	});
-
-	maximizeBtn.click(()=>{
-		chatBoxBody.slideDown();
-	})
-})(jQuery);
+// React.render(<Counter/>, document.body);
