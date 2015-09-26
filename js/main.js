@@ -130,6 +130,7 @@ var ChatMessageList = (function (_React$Component3) {
 	_createClass(ChatMessageList, [{
 		key: 'render',
 		value: function render() {
+			console.log('ChatMessageList >>> I was called');
 			return React.createElement(
 				'ul',
 				{ className: 'no-style messages', id: 'messages-container' },
@@ -160,12 +161,12 @@ var ChatForm = (function (_React$Component4) {
 		value: function updateChatMessageList(event) {
 			// 13 is the Enter keycode
 			if (event.keyCode === 13) {
-				console.log('Enter was pressed', event.target.value);
 				var message = [{
 					text: event.target.value,
 					type: 'customer'
 				}];
-				React.createElement(ChatMessageList, { message: message });
+				console.log('ChatMessageList');
+
 				event.target.value = "";
 				event.preventDefault();
 			};
@@ -179,7 +180,7 @@ var ChatForm = (function (_React$Component4) {
 				React.createElement(
 					'form',
 					{ action: '', method: 'post', id: 'chat-message-form' },
-					React.createElement('textarea', { placeholder: 'Hi. I would like to receive help on ...', onKeyDown: this.updateChatMessageList.bind(this), name: 'message' })
+					React.createElement('textarea', { placeholder: 'Hi. I would like to receive help on ...', onKeyDown: this.updateChatMessageList, name: 'message' })
 				)
 			);
 		}
@@ -188,32 +189,8 @@ var ChatForm = (function (_React$Component4) {
 	return ChatForm;
 })(React.Component);
 
-var ChatBoxBody = (function (_React$Component5) {
-	_inherits(ChatBoxBody, _React$Component5);
-
-	function ChatBoxBody() {
-		_classCallCheck(this, ChatBoxBody);
-
-		_get(Object.getPrototypeOf(ChatBoxBody.prototype), 'constructor', this).apply(this, arguments);
-	}
-
-	_createClass(ChatBoxBody, [{
-		key: 'render',
-		value: function render() {
-			return React.createElement(
-				'section',
-				{ className: 'body' },
-				React.createElement(ChatMessageList, null),
-				React.createElement(ChatForm, null)
-			);
-		}
-	}]);
-
-	return ChatBoxBody;
-})(React.Component);
-
-var ChatBox = (function (_React$Component6) {
-	_inherits(ChatBox, _React$Component6);
+var ChatBox = (function (_React$Component5) {
+	_inherits(ChatBox, _React$Component5);
 
 	function ChatBox() {
 		_classCallCheck(this, ChatBox);
@@ -228,7 +205,12 @@ var ChatBox = (function (_React$Component6) {
 				'aside',
 				{ id: 'chat-box' },
 				React.createElement(Header, null),
-				React.createElement(ChatBoxBody, null)
+				React.createElement(
+					'section',
+					{ className: 'body' },
+					React.createElement(ChatMessageList, null),
+					React.createElement(ChatForm, null)
+				)
 			);
 		}
 	}]);
@@ -237,24 +219,3 @@ var ChatBox = (function (_React$Component6) {
 })(React.Component);
 
 React.render(React.createElement(ChatBox, null), document.body);
-
-// class Counter extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {count: props.initialCount};
-//   }
-//   tick() {
-//     this.setState({count: this.state.count + 1});
-//   }
-//   render() {
-//     return (
-//       <button onClick={this.tick.bind(this)}>
-//         Clicks: {this.state.count}
-//       </button>
-//     );
-//   }
-// }
-// Counter.propTypes = { initialCount: React.PropTypes.number };
-// Counter.defaultProps = { initialCount: 4 };
-
-// React.render(<Counter/>, document.body);

@@ -65,6 +65,7 @@ class ChatMessageList extends React.Component {
 	}
 
 	render(){
+		console.log('ChatMessageList >>> I was called');
 		return(
 		  	<ul className="no-style messages" id="messages-container">
 					{this.state.chatMessages.map(function(message, id){
@@ -81,12 +82,12 @@ class ChatForm extends React.Component {
 	updateChatMessageList(event){
 		// 13 is the Enter keycode
 		if (event.keyCode === 13) {
-			console.log('Enter was pressed', event.target.value);
 			let message = [{
 				text: event.target.value,
 				type: 'customer' 
 			}];
-			<ChatMessageList message={message}/>
+			console.log('ChatMessageList');
+
 			event.target.value = "";
 			event.preventDefault();
 		};
@@ -96,20 +97,9 @@ class ChatForm extends React.Component {
 		return(
 			<div className="footer">
 				<form action="" method="post" id="chat-message-form">
-					<textarea placeholder="Hi. I would like to receive help on ..." onKeyDown={this.updateChatMessageList.bind(this)} name="message"></textarea>
+					<textarea placeholder="Hi. I would like to receive help on ..." onKeyDown={this.updateChatMessageList} name="message"></textarea>
 				</form>
 			</div>
-		);
-	}
-}
-
-class ChatBoxBody extends React.Component {
-	render(){
-		return(
-			<section className="body">
-				<ChatMessageList/>
-				<ChatForm/>
-			</section>
 		);
 	}
 }
@@ -119,31 +109,13 @@ class ChatBox extends React.Component {
 		return(
 			<aside id="chat-box">
 				<Header/>
-				<ChatBoxBody/>
+				<section className="body">
+					<ChatMessageList/>
+					<ChatForm/>
+				</section>
 			</aside>
 		);
 	}
 }
 
 React.render(<ChatBox/>, document.body);
-
-// class Counter extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {count: props.initialCount};
-//   }
-//   tick() {
-//     this.setState({count: this.state.count + 1});
-//   }
-//   render() {
-//     return (
-//       <button onClick={this.tick.bind(this)}>
-//         Clicks: {this.state.count}
-//       </button>
-//     );
-//   }
-// }
-// Counter.propTypes = { initialCount: React.PropTypes.number };
-// Counter.defaultProps = { initialCount: 4 };
-
-// React.render(<Counter/>, document.body);

@@ -40,3 +40,5 @@ Chatbox components:
 - Message container
     - Chat Message
 - Form with a textarea
+
+Update form > Update state in MessageList
