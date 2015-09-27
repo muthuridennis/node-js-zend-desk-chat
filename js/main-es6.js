@@ -1,6 +1,6 @@
 // React code
 class Header extends React.Component {
-	componentDidMount() {
+	setChatBoxWindowControlsEvents(){
 		(function($) {
 			let minimizeBtn = $('.window-controls .minimize');
 			let maximizeBtn = $('.window-controls .expand');
@@ -14,6 +14,10 @@ class Header extends React.Component {
 				chatBoxBody.slideDown();
 			})
 		})(jQuery);
+	}
+
+	componentDidMount() {
+		this.setChatBoxWindowControlsEvents()
 	}
 
 	render(){
@@ -31,6 +35,7 @@ class Header extends React.Component {
 }
 
 class ChatMessage extends React.Component {
+
 	render(){
 		let chatMessage = {
 			business: (message) =>{
@@ -54,6 +59,23 @@ class ChatMessage extends React.Component {
 }
 
 class ChatMessageList extends React.Component {
+	setScrollTop(){
+		(function($) {
+			let messagesContainer = $("#messages-container");
+			let marginBottom = 10;
+			// get the scroll top of the messages container
+			let originalScrollTop = messagesContainer.scrollTop(); 
+			// get the height of the new list item
+			let newListItemHeight = $("#messages-container li:last-child").outerHeight();
+			// set the new scroll top
+			messagesContainer.scrollTop(originalScrollTop + newListItemHeight + marginBottom);
+		})(jQuery);		
+	}
+
+	componentDidUpdate(){
+		this.setScrollTop();
+	}
+
 	render(){
 		return(
 		  	<ul className="no-style messages" id="messages-container">

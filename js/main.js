@@ -19,8 +19,8 @@ var Header = (function (_React$Component) {
 	}
 
 	_createClass(Header, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
+		key: 'setChatBoxWindowControlsEvents',
+		value: function setChatBoxWindowControlsEvents() {
 			(function ($) {
 				var minimizeBtn = $('.window-controls .minimize');
 				var maximizeBtn = $('.window-controls .expand');
@@ -34,6 +34,11 @@ var Header = (function (_React$Component) {
 					chatBoxBody.slideDown();
 				});
 			})(jQuery);
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.setChatBoxWindowControlsEvents();
 		}
 	}, {
 		key: 'render',
@@ -122,6 +127,25 @@ var ChatMessageList = (function (_React$Component3) {
 	}
 
 	_createClass(ChatMessageList, [{
+		key: 'setScrollTop',
+		value: function setScrollTop() {
+			(function ($) {
+				var messagesContainer = $("#messages-container");
+				var marginBottom = 10;
+				// get the scroll top of the messages container
+				var originalScrollTop = messagesContainer.scrollTop();
+				// get the height of the new list item
+				var newListItemHeight = $("#messages-container li:last-child").outerHeight();
+				// set the new scroll top
+				messagesContainer.scrollTop(originalScrollTop + newListItemHeight + marginBottom);
+			})(jQuery);
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			this.setScrollTop();
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return React.createElement(
