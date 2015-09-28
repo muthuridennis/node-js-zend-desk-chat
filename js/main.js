@@ -212,20 +212,27 @@ var ChatBox = (function (_React$Component5) {
 
 		_get(Object.getPrototypeOf(ChatBox.prototype), 'constructor', this).call(this);
 		this.state = {
-			chatMessages: [{
-				text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
-				type: 'business'
-			}]
+			chatMessages: []
 		};
 	}
+
+	// update message que
 
 	_createClass(ChatBox, [{
 		key: 'addMessageToList',
 		value: function addMessageToList(message) {
-			// update message que
 			this.state.chatMessages.push(message);
 			this.setState({
 				chatMessages: this.state.chatMessages
+			});
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			$.get('http://127.0.0.1:8081/').done((function (data, status) {
+				this.addMessageToList(data);
+			}).bind(this)).fail(function (data, status) {
+				console.log('Error and here is the status: ' + status);
 			});
 		}
 	}, {

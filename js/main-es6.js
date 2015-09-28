@@ -117,19 +117,26 @@ class ChatBox extends React.Component {
 	constructor(){
 		super();
 		this.state = {
-			chatMessages: [{
-				text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
-				type: 'business'				
-			}]
+			chatMessages: []
 		}
 	}
-
+	
+	// update message que
 	addMessageToList(message){
-		// update message que
 		this.state.chatMessages.push(message)
 		this.setState({
 			chatMessages: this.state.chatMessages 
 		});
+	}
+
+	componentDidMount() {
+		$.get('http://127.0.0.1:8081/')
+		 .done(function(data, status){
+		 		this.addMessageToList(data);
+		 }.bind(this))
+		 .fail(function(data, status){
+		 		console.log(`Error and here is the status: ${status}`);
+		 });
 	}
 
 	render(){
