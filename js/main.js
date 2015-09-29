@@ -21,19 +21,17 @@ var Header = (function (_React$Component) {
 	_createClass(Header, [{
 		key: 'setChatBoxWindowControlsEvents',
 		value: function setChatBoxWindowControlsEvents() {
-			(function ($) {
-				var minimizeBtn = $('.window-controls .minimize');
-				var maximizeBtn = $('.window-controls .expand');
-				var chatBoxBody = $('#chat-box .body');
+			var minimizeBtn = $('.window-controls .minimize');
+			var maximizeBtn = $('.window-controls .expand');
+			var chatBoxBody = $('#chat-box .body');
 
-				minimizeBtn.click(function () {
-					chatBoxBody.slideUp();
-				});
+			minimizeBtn.click(function () {
+				chatBoxBody.slideUp();
+			});
 
-				maximizeBtn.click(function () {
-					chatBoxBody.slideDown();
-				});
-			})(jQuery);
+			maximizeBtn.click(function () {
+				chatBoxBody.slideDown();
+			});
 		}
 	}, {
 		key: 'componentDidMount',
@@ -183,6 +181,17 @@ var ChatForm = (function (_React$Component4) {
 				};
 				this.props.newMessage(message);
 				event.target.value = "";
+				$.post('http://127.0.0.1:8081/', message).done((function (data, status) {
+					setTimeout((function () {
+						this.props.newMessage(data);
+					}).bind(this), 700);
+				}).bind(this)).fail((function (data, status) {
+					var message = {
+						text: 'Problem contacting the server.',
+						type: 'customer'
+					};
+					this.props.newMessage(message);
+				}).bind(this));
 				event.preventDefault();
 			};
 		}
@@ -229,11 +238,15 @@ var ChatBox = (function (_React$Component5) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			$.get('http://127.0.0.1:8081/').done((function (data, status) {
+			$.get('http://127.0.0.1:8081/').done((function (data) {
 				this.addMessageToList(data);
-			}).bind(this)).fail(function (data, status) {
-				console.log('Error and here is the status: ' + status);
-			});
+			}).bind(this)).fail((function (data, status) {
+				var message = {
+					text: 'Problem contacting the server.',
+					type: 'business'
+				};
+				this.addMessageToList(message);
+			}).bind(this));
 		}
 	}, {
 		key: 'render',

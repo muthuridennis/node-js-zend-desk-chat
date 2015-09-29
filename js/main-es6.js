@@ -1,7 +1,6 @@
 // React code
 class Header extends React.Component {
 	setChatBoxWindowControlsEvents(){
-		(function($) {
 			let minimizeBtn = $('.window-controls .minimize');
 			let maximizeBtn = $('.window-controls .expand');
 			let chatBoxBody =  $('#chat-box .body');
@@ -13,7 +12,6 @@ class Header extends React.Component {
 			maximizeBtn.click(()=>{
 				chatBoxBody.slideDown();
 			})
-		})(jQuery);
 	}
 
 	componentDidMount() {
@@ -96,8 +94,21 @@ class ChatForm extends React.Component {
 				text: event.target.value,
 				type: 'customer' 
 			};
-			this.props.newMessage(message)
+			this.props.newMessage(message);
 			event.target.value = "";
+			$.post('http://127.0.0.1:8081/', message)
+				.done(function(data, status) {
+					setTimeout(function(){
+						this.props.newMessage(data);
+					}.bind(this), 700); 
+				}.bind(this))
+				.fail(function(data, status) {
+					let message = {
+						text: 'Problem contacting the server.',
+						type: 'customer' 
+					};
+					this.props.newMessage(message);
+				}.bind(this))
 			event.preventDefault();
 		};
 	}
@@ -131,12 +142,16 @@ class ChatBox extends React.Component {
 
 	componentDidMount() {
 		$.get('http://127.0.0.1:8081/')
-		 .done(function(data, status){
+		 .done(function(data){
 		 		this.addMessageToList(data);
 		 }.bind(this))
 		 .fail(function(data, status){
-		 		console.log(`Error and here is the status: ${status}`);
-		 });
+				let message = {
+					text: 'Problem contacting the server.',
+					type: 'business' 
+				};
+				this.addMessageToList(message);
+		 }.bind(this));
 	}
 
 	render(){
