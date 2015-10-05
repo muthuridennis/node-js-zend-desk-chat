@@ -58,16 +58,13 @@ class ChatMessage extends React.Component {
 
 class ChatMessageList extends React.Component {
 	setScrollTop(){
-		(function($) {
 			let messagesContainer = $("#messages-container");
-			let marginBottom = 10;
-			// get the scroll top of the messages container
-			let originalScrollTop = messagesContainer.scrollTop(); 
-			// get the height of the new list item
-			let newListItemHeight = $("#messages-container li:last-child").outerHeight();
+			// initialize the scroll top of the messages container
+			messagesContainer.scrollTop(0); 
+			// get the top offset of the latest message
+			let verticalOffset = $("#messages-container li:last").offset().top
 			// set the new scroll top
-			messagesContainer.scrollTop(originalScrollTop + newListItemHeight + marginBottom);
-		})(jQuery);		
+			messagesContainer.scrollTop(verticalOffset);
 	}
 
 	componentDidUpdate(){

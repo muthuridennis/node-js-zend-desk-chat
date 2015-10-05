@@ -127,16 +127,13 @@ var ChatMessageList = (function (_React$Component3) {
 	_createClass(ChatMessageList, [{
 		key: 'setScrollTop',
 		value: function setScrollTop() {
-			(function ($) {
-				var messagesContainer = $("#messages-container");
-				var marginBottom = 10;
-				// get the scroll top of the messages container
-				var originalScrollTop = messagesContainer.scrollTop();
-				// get the height of the new list item
-				var newListItemHeight = $("#messages-container li:last-child").outerHeight();
-				// set the new scroll top
-				messagesContainer.scrollTop(originalScrollTop + newListItemHeight + marginBottom);
-			})(jQuery);
+			var messagesContainer = $("#messages-container");
+			// initialize the scroll top of the messages container
+			messagesContainer.scrollTop(0);
+			// get the top offset of the latest message
+			var verticalOffset = $("#messages-container li:last").offset().top;
+			// set the new scroll top
+			messagesContainer.scrollTop(verticalOffset);
 		}
 	}, {
 		key: 'componentDidUpdate',
