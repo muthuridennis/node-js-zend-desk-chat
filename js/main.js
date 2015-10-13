@@ -1,4 +1,3 @@
-// React code
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -8,6 +7,10 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var chatServerUrl = 'http://localhost:8081/';
+var socket = io.connect(chatServerUrl);
+// React code
 
 var Header = (function (_React$Component) {
 	_inherits(Header, _React$Component);
@@ -178,17 +181,7 @@ var ChatForm = (function (_React$Component4) {
 				};
 				this.props.newMessage(message);
 				event.target.value = "";
-				$.post('http://127.0.0.1:8081/', message).done((function (data, status) {
-					setTimeout((function () {
-						this.props.newMessage(data);
-					}).bind(this), 700);
-				}).bind(this)).fail((function (data, status) {
-					var message = {
-						text: 'Problem contacting the server.',
-						type: 'customer'
-					};
-					this.props.newMessage(message);
-				}).bind(this));
+				socket.emit('chat message', message);
 				event.preventDefault();
 			};
 		}
@@ -235,7 +228,7 @@ var ChatBox = (function (_React$Component5) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			$.get('http://127.0.0.1:8081/').done((function (data) {
+			$.get(chatServerUrl).done((function (data) {
 				this.addMessageToList(data);
 			}).bind(this)).fail((function (data, status) {
 				var message = {
@@ -243,6 +236,14 @@ var ChatBox = (function (_React$Component5) {
 					type: 'business'
 				};
 				this.addMessageToList(message);
+			}).bind(this));
+
+			socket.on('connect_error', function (error) {
+				console.error('Problem contacting the server...');
+			});
+
+			socket.on('chat message', (function (chatMessage) {
+				this.addMessageToList(chatMessage);
 			}).bind(this));
 		}
 	}, {

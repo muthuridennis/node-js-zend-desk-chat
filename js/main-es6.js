@@ -1,3 +1,5 @@
+let chatServerUrl = 'http://localhost:8081/'
+let socket = io.connect(chatServerUrl);
 // React code
 class Header extends React.Component {
 	setChatBoxWindowControlsEvents(){
@@ -93,19 +95,7 @@ class ChatForm extends React.Component {
 			};
 			this.props.newMessage(message);
 			event.target.value = "";
-			$.post('http://127.0.0.1:8081/', message)
-				.done(function(data, status) {
-					setTimeout(function(){
-						this.props.newMessage(data);
-					}.bind(this), 700); 
-				}.bind(this))
-				.fail(function(data, status) {
-					let message = {
-						text: 'Problem contacting the server.',
-						type: 'customer' 
-					};
-					this.props.newMessage(message);
-				}.bind(this))
+			socket.emit('chat message', message);
 			event.preventDefault();
 		};
 	}
@@ -138,7 +128,7 @@ class ChatBox extends React.Component {
 	}
 
 	componentDidMount() {
-		$.get('http://127.0.0.1:8081/')
+		$.get(chatServerUrl)
 		 .done(function(data){
 		 		this.addMessageToList(data);
 		 }.bind(this))
@@ -149,6 +139,14 @@ class ChatBox extends React.Component {
 				};
 				this.addMessageToList(message);
 		 }.bind(this));
+
+		socket.on('connect_error', function(error){
+			console.error('Problem contacting the server...');
+		});
+		
+ 		socket.on('chat message', function(chatMessage){
+	 		this.addMessageToList(chatMessage);
+		}.bind(this));
 	}
 
 	render(){
