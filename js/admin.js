@@ -43,7 +43,7 @@ var Header = (function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var title = 'Chicken House Help';
+			var title = 'Chicken House Admin';
 			return React.createElement(
 				'section',
 				{ className: 'header' },
@@ -86,7 +86,7 @@ var ChatMessage = (function (_React$Component2) {
 		key: 'render',
 		value: function render() {
 			var chatMessage = {
-				recepient: function recepient(message) {
+				sender: function sender(message) {
 					return React.createElement(
 						'li',
 						{ className: 'recepient' },
@@ -98,14 +98,20 @@ var ChatMessage = (function (_React$Component2) {
 						)
 					);
 				},
-				sender: function sender(message) {
+				recepient: function recepient(message) {
 					return React.createElement(
 						'li',
 						{ className: 'sender' },
 						React.createElement(
 							'span',
 							{ className: 'message offset-right' },
-							message
+							message,
+							React.createElement('br', null),
+							React.createElement(
+								'time',
+								null,
+								'1 min ago'
+							)
 						)
 					);
 				}
@@ -227,16 +233,6 @@ var ChatBox = (function (_React$Component5) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			$.get(chatServerUrl).done((function (data) {
-				this.addMessageToList(data);
-			}).bind(this)).fail((function (data, status) {
-				var message = {
-					text: 'Problem contacting the server.',
-					type: 'sender'
-				};
-				this.addMessageToList(message);
-			}).bind(this));
-
 			socket.on('connect_error', function (error) {
 				console.error('Problem contacting the server...');
 			});

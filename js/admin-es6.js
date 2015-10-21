@@ -1,4 +1,4 @@
-let chatServerUrl = 'http://localhost:8081/';
+let chatServerUrl = 'http://localhost:8081/'
 let socket = io.connect(chatServerUrl);
 
 class Header extends React.Component {
@@ -21,7 +21,7 @@ class Header extends React.Component {
 	}
 
 	render(){
-		let title = 'Chicken House Help';
+		let title = 'Chicken House Admin';
 		return(
 			<section className="header">
 				<h3 className="title">{title}</h3>
@@ -38,7 +38,7 @@ class ChatMessage extends React.Component {
 
 	render(){
 		let chatMessage = {
-			recepient: (message) =>{
+			sender: (message) =>{
 				return(
 					<li className="recepient">
 						<img src="/images/avatars/female-avatar-1.png" className="avatar" alt="recepient avatar"/>
@@ -46,10 +46,14 @@ class ChatMessage extends React.Component {
 					</li>
 				)
 			},
-			sender: (message) =>{
+			recepient: (message) =>{
 				return(
 					<li className="sender">
-	            <span className="message offset-right">{message}</span>
+	            <span className="message offset-right">
+	            	{message}
+	            	<br/>
+	            	<time>{'1 min ago'}</time>
+            	</span>
 	        </li>
 				)
 			}
@@ -128,18 +132,6 @@ class ChatBox extends React.Component {
 	}
 
 	componentDidMount() {
-		$.get(chatServerUrl)
-		 .done(function(data){
-		 		this.addMessageToList(data);
-		 }.bind(this))
-		 .fail(function(data, status){
-				let message = {
-					text: 'Problem contacting the server.',
-					type: 'sender' 
-				};
-				this.addMessageToList(message);
-		 }.bind(this));
-
 		socket.on('connect_error', function(error){
 			console.error('Problem contacting the server...');
 		});
