@@ -10,7 +10,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var chatServerUrl = 'http://localhost:8081/';
 var socket = io.connect(chatServerUrl);
-// React code
 
 var Header = (function (_React$Component) {
 	_inherits(Header, _React$Component);
@@ -87,7 +86,7 @@ var ChatMessage = (function (_React$Component2) {
 		key: 'render',
 		value: function render() {
 			var chatMessage = {
-				business: function business(message) {
+				recepient: function recepient(message) {
 					return React.createElement(
 						'li',
 						{ className: 'recepient' },
@@ -99,14 +98,20 @@ var ChatMessage = (function (_React$Component2) {
 						)
 					);
 				},
-				customer: function customer(message) {
+				sender: function sender(message) {
 					return React.createElement(
 						'li',
 						{ className: 'sender' },
 						React.createElement(
 							'span',
 							{ className: 'message offset-right' },
-							message
+							message,
+							React.createElement('br', null),
+							React.createElement(
+								'time',
+								null,
+								'1 min ago'
+							)
 						)
 					);
 				}
@@ -177,11 +182,11 @@ var ChatForm = (function (_React$Component4) {
 			if (event.keyCode === 13) {
 				var message = {
 					text: event.target.value,
-					type: 'customer'
+					type: 'sender'
 				};
 				this.props.newMessage(message);
-				event.target.value = "";
 				socket.emit('chat message', message);
+				event.target.value = "";
 				event.preventDefault();
 			};
 		}
@@ -233,7 +238,7 @@ var ChatBox = (function (_React$Component5) {
 			}).bind(this)).fail((function (data, status) {
 				var message = {
 					text: 'Problem contacting the server.',
-					type: 'business'
+					type: 'sender'
 				};
 				this.addMessageToList(message);
 			}).bind(this));

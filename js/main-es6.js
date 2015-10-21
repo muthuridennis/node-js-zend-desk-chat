@@ -1,6 +1,6 @@
-let chatServerUrl = 'http://localhost:8081/'
+let chatServerUrl = 'http://localhost:8081/';
 let socket = io.connect(chatServerUrl);
-// React code
+
 class Header extends React.Component {
 	setChatBoxWindowControlsEvents(){
 			let minimizeBtn = $('.window-controls .minimize');
@@ -38,7 +38,7 @@ class ChatMessage extends React.Component {
 
 	render(){
 		let chatMessage = {
-			business: (message) =>{
+			recepient: (message) =>{
 				return(
 					<li className="recepient">
 						<img src="/images/avatars/female-avatar-1.png" className="avatar" alt="recepient avatar"/>
@@ -46,10 +46,14 @@ class ChatMessage extends React.Component {
 					</li>
 				)
 			},
-			customer: (message) =>{
+			sender: (message) =>{
 				return(
 					<li className="sender">
-	            <span className="message offset-right">{message}</span>
+	            <span className="message offset-right">
+	            	{message}
+	            	<br/>
+	            	<time>{'1 min ago'}</time>
+            	</span>
 	        </li>
 				)
 			}
@@ -91,11 +95,11 @@ class ChatForm extends React.Component {
 		if (event.keyCode === 13) {
 			let message = {
 				text: event.target.value,
-				type: 'customer' 
+				type: 'sender' 
 			};
 			this.props.newMessage(message);
-			event.target.value = "";
 			socket.emit('chat message', message);
+			event.target.value = "";
 			event.preventDefault();
 		};
 	}
@@ -135,7 +139,7 @@ class ChatBox extends React.Component {
 		 .fail(function(data, status){
 				let message = {
 					text: 'Problem contacting the server.',
-					type: 'business' 
+					type: 'sender' 
 				};
 				this.addMessageToList(message);
 		 }.bind(this));

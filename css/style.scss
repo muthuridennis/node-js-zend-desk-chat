@@ -112,10 +112,14 @@
 			float: left;
 			width: auto;
 			max-width: 84.67%;
-			padding: $padding;
+			padding: 0.4rem 0.4rem 0.1rem;
 			word-wrap: break-word;
 			border-radius: 0.333rem;
-			box-shadow: 0 10px 3px -8px #C0C0C0;		
+			box-shadow: 0 10px 3px -8px #C0C0C0;
+
+			time{
+				font-size: 0.654rem;
+			}		
 		}
 
 		.avatar{
