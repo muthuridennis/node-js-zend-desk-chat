@@ -19,10 +19,11 @@ Start the Nodejs server `node index.js`
 
 # Project Roadmap
 - Create a better admin section: e.g.
-	- Enable multiple connections to the admin.
+	- Enable multiple domain support by the admin.
 	- Chat title customization
-	- Show cat history
+	- Show chat history
 	- Persist chat messages.
 - Add time stamps to chat messages.
-- Display unread messages and alert users of new messages with some audio. 
+- Display unread messages notification
+- Alert users of new messages with some audio. 
 - Compress the client chat feature into a script tag that can be embeded into a page.
