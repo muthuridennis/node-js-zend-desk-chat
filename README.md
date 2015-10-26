@@ -20,10 +20,10 @@ Start the Nodejs server `node index.js`
 # Project Roadmap
 - Create a better admin section: e.g.
 	- Enable multiple domain support by the admin.
-	- Chat title customization
-	- Show chat history
+	- Chat title customization.
 	- Persist chat messages.
+	- Show chat history.
 - Add time stamps to chat messages.
-- Display unread messages notification
+- Display unread messages notification.
 - Alert users of new messages with some audio. 
 - Compress the client chat feature into a script tag that can be embeded into a page.
