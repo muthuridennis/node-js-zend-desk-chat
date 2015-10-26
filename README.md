@@ -24,4 +24,5 @@ Start the Nodejs server `node index.js`
 	- Show cat history
 	- Persist chat messages.
 - Add time stamps to chat messages.
+- Display unread messages and alert users of new messages with some audio. 
 - Compress the client chat feature into a script tag that can be embeded into a page.
