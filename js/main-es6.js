@@ -99,12 +99,13 @@ class ChatMessageList extends React.Component {
 class ChatForm extends React.Component {
 	// when a user presses enter the message gets appended to the chat message list
 	updateChatMessageList(event){
+		socket.emit('typing', 'customer typing...');
 		// 13 is the Enter keycode
 		if (event.keyCode === 13) {
 			let message = {
 				text: event.target.value,
 				type: 'sender',
-				humanized_time: moment().startOf('hour').fromNow(),
+				humanized_time: moment().fromNow(),
 				machine_time: moment().format('MMMM Do YYYY, hh:mm:ss') 
 
 			};
@@ -118,6 +119,7 @@ class ChatForm extends React.Component {
 	render(){
 		return(
 			<div className="footer">
+				<span className="typing">{this.props.typing}</span>
 				<form action="" method="post" id="chat-message-form">
 					<textarea placeholder="Hi. I would like to receive help on ..." onKeyDown={this.updateChatMessageList.bind(this)} name="message"></textarea>
 				</form>
@@ -130,8 +132,21 @@ class ChatBox extends React.Component {
 	constructor(){
 		super();
 		this.state = {
-			chatMessages: []
+			chatMessages: [],
+			typing: ''
 		}
+	}
+
+	isTyping(typing){
+		if (typing){
+			this.setState({
+				typing: typing
+			}); 
+		}else{
+			this.setState({
+				typing: ''
+			});
+		};
 	}
 	
 	// update message que
@@ -160,6 +175,10 @@ class ChatBox extends React.Component {
 		socket.on('connect_error', function(error){
 			console.error('Problem contacting the server...');
 		});
+
+ 		socket.on('typing', function(typing){
+	 		this.isTyping(typing);
+		}.bind(this));
 		
  		socket.on('chat message', function(chatMessage){
 	 		this.addMessageToList(chatMessage);
@@ -172,7 +191,7 @@ class ChatBox extends React.Component {
 				<Header/>
 				<section className="body">
 					<ChatMessageList messages={this.state.chatMessages}/>
-					<ChatForm newMessage={this.addMessageToList.bind(this)}/>
+					<ChatForm typing={this.state.typing} newMessage={this.addMessageToList.bind(this)}/>
 				</section>
 			</aside>
 		);

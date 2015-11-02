@@ -7,7 +7,7 @@ var moment = require('moment');
 var message = {
 			text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
 			type: 'recepient',
-			humanized_time: moment().startOf('hour').fromNow(),
+			humanized_time: moment().fromNow(),
 			machine_time: moment().format('MMMM Do YYYY, hh:mm:ss') 
 		}
 
@@ -22,10 +22,17 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
 	console.log('user connected');
+	
 	socket.on('chat message', function(chatMessage){
 		chatMessage.type = 'recepient';
 		socket.broadcast.emit('chat message', chatMessage);
-	})
+	});
+
+	socket.on('typing', function(typing){
+		socket.broadcast.emit('typing', typing);
+		console.log(typing);
+	});
+
 	socket.on('disconnect', function(){
 		console.log('user is disconnected');
 	});

@@ -134,6 +134,15 @@
 	}
 
 	.footer{
+		span{
+			text-align: center;
+			margin: 0px;
+			padding: 7px 0px;
+			display: block;
+			border-left: 1px solid #CFCFCF;
+			border-right: 1px solid #CFCFCF;
+		}
+
 		textarea{
 			width: 100%;
 			height: 3rem;

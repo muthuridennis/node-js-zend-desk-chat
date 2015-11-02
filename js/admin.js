@@ -178,6 +178,7 @@ var ChatForm = (function (_React$Component4) {
 
 		// when a user presses enter the message gets appended to the chat message list
 		value: function updateChatMessageList(event) {
+			socket.emit('typing', 'admin typing...');
 			// 13 is the Enter keycode
 			if (event.keyCode === 13) {
 				var message = {
@@ -197,9 +198,14 @@ var ChatForm = (function (_React$Component4) {
 				'div',
 				{ className: 'footer' },
 				React.createElement(
+					'span',
+					{ className: 'typing' },
+					this.props.typing
+				),
+				React.createElement(
 					'form',
 					{ action: '', method: 'post', id: 'chat-message-form' },
-					React.createElement('textarea', { placeholder: 'Hi. I would like to receive help on ...', onKeyDown: this.updateChatMessageList.bind(this), name: 'message' })
+					React.createElement('textarea', { onKeyDown: this.updateChatMessageList.bind(this), name: 'message' })
 				)
 			);
 		}
@@ -216,13 +222,27 @@ var ChatBox = (function (_React$Component5) {
 
 		_get(Object.getPrototypeOf(ChatBox.prototype), 'constructor', this).call(this);
 		this.state = {
-			chatMessages: []
+			chatMessages: [],
+			typing: ''
 		};
 	}
 
-	// update message que
-
 	_createClass(ChatBox, [{
+		key: 'isTyping',
+		value: function isTyping(typing) {
+			if (typing) {
+				this.setState({
+					typing: typing
+				});
+			} else {
+				this.setState({
+					typing: ''
+				});
+			};
+		}
+
+		// update message que
+	}, {
 		key: 'addMessageToList',
 		value: function addMessageToList(message) {
 			this.state.chatMessages.push(message);
@@ -236,6 +256,10 @@ var ChatBox = (function (_React$Component5) {
 			socket.on('connect_error', function (error) {
 				console.error('Problem contacting the server...');
 			});
+
+			socket.on('typing', (function (typing) {
+				this.isTyping(typing);
+			}).bind(this));
 
 			socket.on('chat message', (function (chatMessage) {
 				this.addMessageToList(chatMessage);
@@ -252,7 +276,7 @@ var ChatBox = (function (_React$Component5) {
 					'section',
 					{ className: 'body' },
 					React.createElement(ChatMessageList, { messages: this.state.chatMessages }),
-					React.createElement(ChatForm, { newMessage: this.addMessageToList.bind(this) })
+					React.createElement(ChatForm, { typing: this.state.typing, newMessage: this.addMessageToList.bind(this) })
 				)
 			);
 		}
