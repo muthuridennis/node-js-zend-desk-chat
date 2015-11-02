@@ -119,6 +119,10 @@
 
 			time{
 				font-size: 0.654rem;
+
+				&:hover{
+					cursor: pointer;
+				}
 			}		
 		}
 

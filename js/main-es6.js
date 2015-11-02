@@ -42,14 +42,22 @@ class ChatMessage extends React.Component {
 				return(
 					<li className="recepient">
 						<img src="/images/avatars/female-avatar-1.png" className="avatar" alt="recepient avatar"/>
-						<span className="message">{message}</span>
+						<span className="message">
+							{message}
+							<br/>
+							<time title={this.props.messageMachineTime}>{this.props.messageHumanTime}</time>
+						</span>
 					</li>
 				)
 			},
 			sender: (message) =>{
 				return(
 					<li className="sender">
-	            <span className="message offset-right">{message}</span>
+	            <span className="message offset-right">
+	            	{message}
+		            <br/>
+								<time title={this.props.messageMachineTime}>{this.props.messageHumanTime}</time>
+            	</span>
 	        </li>
 				)
 			}
@@ -77,7 +85,11 @@ class ChatMessageList extends React.Component {
 		return(
 		  	<ul className="no-style messages" id="messages-container">
 					{this.props.messages.map(function(message, id){
-						return <ChatMessage key={id} messageText={message.text} messageType={message.type}/>;
+						return (<ChatMessage key={id} 
+																 messageText={message.text} 
+																 messageType={message.type} 
+																 messageHumanTime={message.humanized_time}
+																 messageMachineTime={message.machine_time}/>);
 					})}
 				</ul>
 		);
@@ -91,7 +103,10 @@ class ChatForm extends React.Component {
 		if (event.keyCode === 13) {
 			let message = {
 				text: event.target.value,
-				type: 'sender' 
+				type: 'sender',
+				humanized_time: moment().startOf('hour').fromNow(),
+				machine_time: moment().format('MMMM Do YYYY, hh:mm:ss') 
+
 			};
 			this.props.newMessage(message);
 			socket.emit('chat message', message);
@@ -135,7 +150,9 @@ class ChatBox extends React.Component {
 		 .fail(function(data, status){
 				let message = {
 					text: 'Problem contacting the server.',
-					type: 'sender' 
+					type: 'sender',
+					humanized_time: moment().startOf('hour').fromNow(),
+					machine_time: moment().format('MMMM Do YYYY, hh:mm:ss') 
 				};
 				this.addMessageToList(message);
 		 }.bind(this));

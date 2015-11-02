@@ -85,6 +85,8 @@ var ChatMessage = (function (_React$Component2) {
 	_createClass(ChatMessage, [{
 		key: 'render',
 		value: function render() {
+			var _this = this;
+
 			var chatMessage = {
 				recepient: function recepient(message) {
 					return React.createElement(
@@ -94,7 +96,13 @@ var ChatMessage = (function (_React$Component2) {
 						React.createElement(
 							'span',
 							{ className: 'message' },
-							message
+							message,
+							React.createElement('br', null),
+							React.createElement(
+								'time',
+								{ title: _this.props.messageMachineTime },
+								_this.props.messageHumanTime
+							)
 						)
 					);
 				},
@@ -105,7 +113,13 @@ var ChatMessage = (function (_React$Component2) {
 						React.createElement(
 							'span',
 							{ className: 'message offset-right' },
-							message
+							message,
+							React.createElement('br', null),
+							React.createElement(
+								'time',
+								{ title: _this.props.messageMachineTime },
+								_this.props.messageHumanTime
+							)
 						)
 					);
 				}
@@ -149,7 +163,11 @@ var ChatMessageList = (function (_React$Component3) {
 				'ul',
 				{ className: 'no-style messages', id: 'messages-container' },
 				this.props.messages.map(function (message, id) {
-					return React.createElement(ChatMessage, { key: id, messageText: message.text, messageType: message.type });
+					return React.createElement(ChatMessage, { key: id,
+						messageText: message.text,
+						messageType: message.type,
+						messageHumanTime: message.humanized_time,
+						messageMachineTime: message.machine_time });
 				})
 			);
 		}
@@ -176,7 +194,10 @@ var ChatForm = (function (_React$Component4) {
 			if (event.keyCode === 13) {
 				var message = {
 					text: event.target.value,
-					type: 'sender'
+					type: 'sender',
+					humanized_time: moment().startOf('hour').fromNow(),
+					machine_time: moment().format('MMMM Do YYYY, hh:mm:ss')
+
 				};
 				this.props.newMessage(message);
 				socket.emit('chat message', message);
@@ -232,7 +253,9 @@ var ChatBox = (function (_React$Component5) {
 			}).bind(this)).fail((function (data, status) {
 				var message = {
 					text: 'Problem contacting the server.',
-					type: 'sender'
+					type: 'sender',
+					humanized_time: moment().startOf('hour').fromNow(),
+					machine_time: moment().format('MMMM Do YYYY, hh:mm:ss')
 				};
 				this.addMessageToList(message);
 			}).bind(this));

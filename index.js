@@ -2,10 +2,13 @@ var app = require('express')();
 var http = require('http').Server(app);
 var querystring = require('querystring');
 var io = require('socket.io')(http);
+var moment = require('moment');
 
 var message = {
 			text: 'Hi. I\'m Alice and we\'re here to help you use the site better',
-			type: 'recepient'				
+			type: 'recepient',
+			humanized_time: moment().startOf('hour').fromNow(),
+			machine_time: moment().format('MMMM Do YYYY, hh:mm:ss') 
 		}
 
 app.get('/', function(req, res){
